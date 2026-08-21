@@ -1,0 +1,11 @@
+=== File Integrity Monitoring Report ===
+Generated at: 2026-02-04_21-08-11
+
+[+] New Files:
+C:\Users\user\OneDrive\Desktop\file-integrity-monitor\monitored_dir\file3.txt
+
+[!] Modified Files:
+C:\Users\user\OneDrive\Desktop\file-integrity-monitor\monitored_dir\file1.text
+
+[-] Deleted Files:
+C:\Users\user\OneDrive\Desktop\file-integrity-monitor\monitored_dir\file2.text
