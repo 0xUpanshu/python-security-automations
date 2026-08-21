@@ -4,7 +4,7 @@ from baseline import save_baseline, load_baseline
 from reporter import save_report
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MONITORED_DIR = os.path.join(BASE_DIR, "monitored_dir")
+MONITORED_DIR = os.path.join(BASE_DIR, "sample_files")
 BASELINE_PATH = os.path.join(BASE_DIR, "data", "baseline.json")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 
