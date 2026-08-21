@@ -1,0 +1,11 @@
+source,ip,event
+path_traversal_summary.csv,18/Jun/2024:10:20:11 +0000,"192.168.1.20 - - [18/Jun/2024:10:20:11 +0000] ""GET /../../../../etc/passwd HTTP/1.1"" 403 91"
+path_traversal_summary.csv,18/Jun/2024:10:20:37 +0000,"192.168.1.20 - - [18/Jun/2024:10:20:37 +0000] ""GET /..%2F..%2F..%2Fetc%2Fshadow HTTP/1.1"" 403 87"
+path_traversal_summary.csv,18/Jun/2024:10:21:05 +0000,"192.168.1.21 - - [18/Jun/2024:10:21:05 +0000] ""GET /uploads/../../config.php HTTP/1.1"" 403 104"
+sqli_summary.csv,18/Jun/2024:10:10:22 +0000,"192.168.1.10 - - [18/Jun/2024:10:10:22 +0000] ""GET /login.php?user=admin' OR '1'='1 HTTP/1.1"" 200 611"
+sqli_summary.csv,18/Jun/2024:10:10:35 +0000,"192.168.1.10 - - [18/Jun/2024:10:10:35 +0000] ""GET /login.php?user=admin'-- HTTP/1.1"" 200 598"
+sqli_summary.csv,18/Jun/2024:10:11:18 +0000,"192.168.1.11 - - [18/Jun/2024:10:11:18 +0000] ""GET /product.php?id=5 UNION SELECT username,password FROM users HTTP/1.1"" 200 742"
+sqli_summary.csv,18/Jun/2024:10:11:44 +0000,"192.168.1.11 - - [18/Jun/2024:10:11:44 +0000] ""GET /product.php?id=1 OR 1=1 HTTP/1.1"" 200 705"
+xss_summary.csv,18/Jun/2024:10:15:03 +0000,"192.168.1.15 - - [18/Jun/2024:10:15:03 +0000] ""GET /search?q=<script>alert(1)</script> HTTP/1.1"" 200 388"
+xss_summary.csv,18/Jun/2024:10:15:29 +0000,"192.168.1.16 - - [18/Jun/2024:10:15:29 +0000] ""GET /comment.php?msg=<img src=x onerror=alert(1)> HTTP/1.1"" 200 402"
+xss_summary.csv,18/Jun/2024:10:16:02 +0000,"192.168.1.17 - - [18/Jun/2024:10:16:02 +0000] ""GET /profile?name=javascript:alert(1) HTTP/1.1"" 200 366"

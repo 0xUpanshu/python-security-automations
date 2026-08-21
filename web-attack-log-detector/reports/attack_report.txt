@@ -1,0 +1,33 @@
+--- Web Attack Incident Report ---
+
+[SQL Injection Activity]
+Total SQL Injection Attempts: 4
+
+Attacker IPs:
+- 192.168.1.10 (2 attempts)
+  - Login bypass and database manipulation attempts
+- 192.168.1.11 (2 attempts)
+  - Login bypass and database manipulation attempts
+
+[XSS Activity]
+Total XSS Attempts: 3
+
+Attacker IPs:
+- 192.168.1.15 (1 attempts)
+  - Client-side script injection attempts
+- 192.168.1.16 (1 attempts)
+  - Client-side script injection attempts
+- 192.168.1.17 (1 attempts)
+  - Client-side script injection attempts
+
+[Path Traversal Activity]
+Total Path Traversal Attempts: 3
+
+Attacker IPs:
+- 192.168.1.20 (2 attempts)
+  - Unauthorized access to sensitive system files
+- 192.168.1.21 (1 attempts)
+  - Unauthorized access to sensitive system files
+
+[Overall Observation]
+The detected activities indicate malicious probing and automated scanning behaviour targeting common web application vulnerabilities.

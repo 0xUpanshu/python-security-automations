@@ -1,0 +1,4 @@
+timestamp,ip_address,attack_type,log_entry
+18/Jun/2024:10:15:03 +0000,192.168.1.15,XSS,"192.168.1.15 - - [18/Jun/2024:10:15:03 +0000] ""GET /search?q=<script>alert(1)</script> HTTP/1.1"" 200 388"
+18/Jun/2024:10:15:29 +0000,192.168.1.16,XSS,"192.168.1.16 - - [18/Jun/2024:10:15:29 +0000] ""GET /comment.php?msg=<img src=x onerror=alert(1)> HTTP/1.1"" 200 402"
+18/Jun/2024:10:16:02 +0000,192.168.1.17,XSS,"192.168.1.17 - - [18/Jun/2024:10:16:02 +0000] ""GET /profile?name=javascript:alert(1) HTTP/1.1"" 200 366"
