@@ -1,0 +1,15 @@
+---Linux Incident Report---
+
+Total Failed Login Attempts: 18
+
+Bruteforce IPs Detected:
+- 185.22.33.44 (7 attempts)
+
+Time-based Spikes Detected:
+- IP: 185.22.33.44, Attempts: 5, From: 01:12:01 To: 01:12:13
+
+Suspicious IPs Identified:
+- IP: 185.22.33.44
+  - Multiple failed login attempts
+  - Bruteforce behaviour detected
+  - Public IP address

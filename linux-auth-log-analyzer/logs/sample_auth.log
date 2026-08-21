@@ -1,0 +1,25 @@
+Jun 10 01:12:01 server sshd[1001]: Failed password for invalid user admin from 185.22.33.44 port 54001 ssh2
+Jun 10 01:12:04 server sshd[1002]: Failed password for invalid user test from 185.22.33.44 port 54002 ssh2
+Jun 10 01:12:07 server sshd[1003]: Failed password for root from 185.22.33.44 port 54003 ssh2
+Jun 10 01:12:10 server sshd[1004]: Failed password for invalid user oracle from 185.22.33.44 port 54004 ssh2
+Jun 10 01:12:13 server sshd[1005]: Failed password for root from 185.22.33.44 port 54005 ssh2
+Jun 10 01:12:16 server sshd[1006]: Failed password for invalid user guest from 185.22.33.44 port 54006 ssh2
+Jun 10 01:12:18 server sshd[1006]: Failed password for invalid user guest from 185.22.33.44 port 54006 ssh2
+
+Jun 10 01:15:30 server sshd[1010]: Failed password for root from 103.21.44.11 port 55001 ssh2
+Jun 10 01:15:50 server sshd[1011]: Failed password for root from 103.21.44.11 port 55002 ssh2
+Jun 10 01:16:10 server sshd[1012]: Failed password for root from 103.21.44.11 port 55003 ssh2
+
+Jun 10 01:20:01 server sshd[1020]: Failed password for invalid user dev from 45.77.88.99 port 56001 ssh2
+Jun 10 01:20:03 server sshd[1021]: Failed password for invalid user dev from 45.77.88.99 port 56002 ssh2
+Jun 10 01:20:05 server sshd[1022]: Failed password for invalid user dev from 45.77.88.99 port 56003 ssh2
+Jun 10 01:20:07 server sshd[1023]: Failed password for invalid user dev from 45.77.88.99 port 56004 ssh2
+
+Jun 10 01:25:44 server sshd[1030]: Failed password for invalid user postgres from 91.203.5.77 port 57001 ssh2
+Jun 10 01:26:20 server sshd[1031]: Failed password for invalid user postgres from 91.203.5.77 port 57002 ssh2
+
+Jun 10 01:30:10 server sshd[1040]: Accepted password for user1 from 192.168.1.5 port 58001 ssh2
+Jun 10 01:31:15 server sshd[1041]: Accepted password for user2 from 192.168.1.6 port 58002 ssh2
+
+Jun 10 01:40:01 server sshd[1050]: Failed password for invalid user admin from 8.8.8.8 port 59001 ssh2
+Jun 10 01:50:01 server sshd[1060]: Failed password for invalid user admin from 8.8.8.8 port 59002 ssh2
