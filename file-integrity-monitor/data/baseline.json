@@ -1,4 +1,7 @@
 {
-    "C:\\Users\\user\\OneDrive\\Desktop\\file-integrity-monitor\\monitored_dir\\file1.text": "85c443906e99bb2437dd999ef27dd00cc8fa1eb5489699b8164be62d30293bc3",
-    "C:\\Users\\user\\OneDrive\\Desktop\\file-integrity-monitor\\monitored_dir\\file2.text": "4811bc75b5c86ec9b0837366c28172f0de02054bf65bbd3c0750f207985e7a97"
+    "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\file1.txt": "9975290078ae8c9abe66311088219d6a6ba726b083e3a96a10e7b52bfe5b40d7",
+    "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\file3.txt": "140ce915cea02ff0f1f8d5847e3e700aa9946594950cf65f0dcfbdab1ad43739",
+    "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\invoice.pdf.exe": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\network_test.ps1": "e1f47ea11b038321a192953eaaad7c7f291fa8e18fcdc64d2a78155757daac74",
+    "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\test_powershell.txt": "0418d989e4619df235e0e60ecdca595fd50801a32d081129bf1df50f42c2d8c3"
 }

@@ -1,4 +1,5 @@
 import math
+from ..integrity import calculate_hash
 from collections import Counter
 from pathlib import Path
 
