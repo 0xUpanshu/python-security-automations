@@ -1,18 +1,18 @@
 import os
 
-from .integrity import calculate_hash
 from .scanner import scan_directory
 from .baseline import save_baseline, load_baseline
-from .reporter import save_report
 
 from .detection.analyzer import SecurityAnalyzer
 from .alerting.alert_manager import AlertManager
+from .incidents.manager import IncidentManager
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MONITORED_DIR = os.path.join(BASE_DIR, "sample_files")
 BASELINE_PATH = os.path.join(BASE_DIR, "data", "baseline.json")
+INCIDENTS_PATH = os.path.join(BASE_DIR, "data", "incidents.json")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 
 
@@ -34,23 +34,20 @@ def compare_hashes(old, new):
     return added, modified, deleted
 
 
-def analyze_changes(added, modified, deleted):
-    """
-    Run security analysis on files that currently exist.
-
-    Added and modified files can be analyzed because they
-    are present on disk.
-
-    Deleted files cannot be analyzed because their contents
-    are no longer available.
-    """
-
+def analyze_changes(
+    added,
+    modified,
+    deleted,
+    incident_manager,
+):
+    
     analyzer = SecurityAnalyzer()
     alert_manager = AlertManager()
 
     security_results = []
 
     for file_path in added:
+
         print(f"\n[*] Analyzing added file: {file_path}")
 
         try:
@@ -60,13 +57,27 @@ def analyze_changes(added, modified, deleted):
             security_results.append(result)
 
             if result["suspicious"]:
+
+                incident = incident_manager.create_incident(result)
+
                 alert_manager.alert(result)
 
+                print(
+                    f"[!] Incident created: "
+                    f"{incident['incident_id']}"
+                )
+
         except Exception as error:
-            print(f"[!] Security analysis failed: {file_path}")
+
+            print(
+                f"[!] Security analysis failed: "
+                f"{file_path}"
+            )
+
             print(f"    Reason: {error}")
 
     for file_path in modified:
+
         print(f"\n[*] Analyzing modified file: {file_path}")
 
         try:
@@ -76,13 +87,27 @@ def analyze_changes(added, modified, deleted):
             security_results.append(result)
 
             if result["suspicious"]:
+
+                incident = incident_manager.create_incident(result)
+
                 alert_manager.alert(result)
 
+                print(
+                    f"[!] Incident created: "
+                    f"{incident['incident_id']}"
+                )
+
         except Exception as error:
-            print(f"[!] Security analysis failed: {file_path}")
+
+            print(
+                f"[!] Security analysis failed: "
+                f"{file_path}"
+            )
+
             print(f"    Reason: {error}")
 
     for file_path in deleted:
+
         print(f"\n[!] Deleted file: {file_path}")
 
         deleted_result = {
@@ -90,29 +115,37 @@ def analyze_changes(added, modified, deleted):
             "change_type": "deleted",
             "suspicious": True,
             "indicators": ["file_deleted"],
-        }
-
-        security_results.append(deleted_result)
-
-        alert_manager.alert({
-            "file_path": file_path,
-            "indicators": ["file_deleted"],
             "risk": {
                 "score": 50,
                 "severity": "HIGH",
             },
-        })
+        }
+
+        security_results.append(deleted_result)
+
+        incident = incident_manager.create_incident(
+            deleted_result
+        )
+
+        alert_manager.alert(deleted_result)
+
+        print(
+            f"[!] Incident created: "
+            f"{incident['incident_id']}"
+        )
 
     return security_results
 
 
 def main():
+
     print("[*] Scanning directory...")
 
     current_hashes = scan_directory(MONITORED_DIR)
     baseline_hashes = load_baseline(BASELINE_PATH)
 
     if not baseline_hashes:
+
         print("[+] Creating baseline...")
 
         save_baseline(
@@ -121,7 +154,10 @@ def main():
         )
 
         print("[+] Baseline saved.")
-        print("[+] Run the program again to detect changes.")
+        print(
+            "[+] Run the program again "
+            "to detect changes."
+        )
 
         return
 
@@ -136,30 +172,38 @@ def main():
     print(f"[!] Modified Files: {modified}")
     print(f"[-] Deleted Files: {deleted}")
 
+    incident_manager = IncidentManager(
+        INCIDENTS_PATH
+    )
+
     security_results = analyze_changes(
         added,
         modified,
-        deleted
-    )
-
-    report_file = save_report(
-        added,
-        modified,
         deleted,
-        REPORTS_DIR
+        incident_manager,
     )
-
-    print(f"\n[+] Report saved at: {report_file}")
 
     print("\n=== Security Analysis ===")
 
     for result in security_results:
 
-        print(f"\nFile: {result['file_path']}")
-        print(f"Change: {result['change_type']}")
-        print(f"Suspicious: {result['suspicious']}")
+        print(
+            f"\nFile: "
+            f"{result['file_path']}"
+        )
+
+        print(
+            f"Change: "
+            f"{result['change_type']}"
+        )
+
+        print(
+            f"Suspicious: "
+            f"{result['suspicious']}"
+        )
 
         if result["indicators"]:
+
             print(
                 f"Indicators: "
                 f"{', '.join(result['indicators'])}"

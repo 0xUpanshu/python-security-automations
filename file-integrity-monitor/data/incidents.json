@@ -1,0 +1,34 @@
+[
+    {
+        "incident_id": "INC-2026-0001",
+        "created_at": "2026-08-26T17:41:48",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\test_powershell.txt",
+            "sha256": "b6a4720dceb662a34697b2545d860b6fe2afdb3e9150d8e8a5995ee961609067",
+            "suspicious": true,
+            "indicators": [
+                "yara_match"
+            ],
+            "entropy": 4.0472,
+            "high_entropy": false,
+            "yara_matches": [
+                "Suspicious_Powershell"
+            ],
+            "yara_available": true,
+            "virustotal": {
+                "available": true,
+                "known": false,
+                "malicious": 0,
+                "suspicious": 0,
+                "total_engines": 0
+            },
+            "public_ips": [],
+            "ip_reputation": [],
+            "risk": {
+                "score": 30,
+                "severity": "MEDIUM"
+            },
+            "change_type": "modified"
+        }
+    }
+]

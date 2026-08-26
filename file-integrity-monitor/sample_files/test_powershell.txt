@@ -1,1 +1,3 @@
-powershell -enc Invoke-Expression
+powershell
+-enc
+Invoke-Expression
