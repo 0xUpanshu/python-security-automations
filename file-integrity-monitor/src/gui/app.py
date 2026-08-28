@@ -7,7 +7,7 @@ from .components.sidebar import Sidebar
 from .pages.dashboard import DashboardPage
 from .pages.monitoring import MonitoringPage
 from .pages.incidents.page import IncidentsPage
-from .pages.reports import ReportsPage
+from .pages.reports.page import ReportsPage
 from .pages.settings import SettingsPage
 
 
