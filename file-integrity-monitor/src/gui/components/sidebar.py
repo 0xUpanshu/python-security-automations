@@ -5,14 +5,12 @@ from ..theme import (
     BORDER,
     TEXT_PRIMARY,
     TEXT_SECONDARY,
-    TEXT_MUTED,
     ACCENT,
-    ACCENT_SOFT,
     FONT_FAMILY,
 )
 
-class Sidebar(ctk.CTkFrame):
 
+class Sidebar(ctk.CTkFrame):
     def __init__(self, parent, on_navigate):
         super().__init__(
             parent,
@@ -27,13 +25,14 @@ class Sidebar(ctk.CTkFrame):
         self.buttons = {}
 
         self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(7, weight=1)
 
         self._build_header()
         self._build_navigation()
         self._build_status()
 
     def _build_header(self):
-        title = ctk.CTkLabel(
+        ctk.CTkLabel(
             self,
             text="FILE INTEGRITY",
             font=ctk.CTkFont(
@@ -42,9 +41,7 @@ class Sidebar(ctk.CTkFrame):
                 weight="bold",
             ),
             text_color=TEXT_PRIMARY,
-        )
-
-        title.grid(
+        ).grid(
             row=0,
             column=0,
             padx=22,
@@ -52,7 +49,7 @@ class Sidebar(ctk.CTkFrame):
             sticky="w",
         )
 
-        subtitle = ctk.CTkLabel(
+        ctk.CTkLabel(
             self,
             text="MONITOR",
             font=ctk.CTkFont(
@@ -61,9 +58,7 @@ class Sidebar(ctk.CTkFrame):
                 weight="bold",
             ),
             text_color=ACCENT,
-        )
-
-        subtitle.grid(
+        ).grid(
             row=1,
             column=0,
             padx=22,
@@ -72,7 +67,7 @@ class Sidebar(ctk.CTkFrame):
         )
 
     def _build_navigation(self):
-        buttons = [
+        items = [
             ("Dashboard", "dashboard"),
             ("Monitoring", "monitoring"),
             ("Incidents", "incidents"),
@@ -80,8 +75,7 @@ class Sidebar(ctk.CTkFrame):
             ("Settings", "settings"),
         ]
 
-        for row, (label, page_name) in enumerate(buttons, start=2):
-
+        for row, (label, page_name) in enumerate(items, start=2):
             button = ctk.CTkButton(
                 self,
                 text=label,
@@ -89,9 +83,8 @@ class Sidebar(ctk.CTkFrame):
                 height=42,
                 corner_radius=8,
                 fg_color="transparent",
-                hover_color=ACCENT_SOFT,
+                hover_color="#1E293B",
                 text_color=TEXT_SECONDARY,
-                border_spacing=14,
                 font=ctk.CTkFont(
                     family=FONT_FAMILY,
                     size=14,
@@ -108,62 +101,81 @@ class Sidebar(ctk.CTkFrame):
                 sticky="ew",
             )
 
-            setattr(
-                self,
-                f"{page_name}_button",
-                button,
-            )
             self.buttons[page_name] = button
-
-        self.set_active("dashboard")
 
     def set_active(self, page_name):
         for name, button in self.buttons.items():
-            is_active = name == page_name
-            button.configure(
-                fg_color=ACCENT_SOFT if is_active else "transparent",
-                text_color=TEXT_PRIMARY if is_active else TEXT_SECONDARY,
-            )
+            if name == page_name:
+                button.configure(
+                    fg_color=ACCENT,
+                    text_color=TEXT_PRIMARY,
+                )
+            else:
+                button.configure(
+                    fg_color="transparent",
+                    text_color=TEXT_SECONDARY,
+                )
 
     def _build_status(self):
-        status_frame = ctk.CTkFrame(
+        status = ctk.CTkFrame(
             self,
-            fg_color="transparent",
+            fg_color="#111827",
+            corner_radius=10,
+            border_width=1,
+            border_color=BORDER,
         )
 
-        status_frame.grid(
+        status.grid(
             row=8,
             column=0,
             padx=18,
-            pady=(30, 20),
-            sticky="ew",
+            pady=20,
+            sticky="sew",
         )
 
-        indicator = ctk.CTkLabel(
-            status_frame,
+        status.grid_columnconfigure(1, weight=1)
+
+        ctk.CTkLabel(
+            status,
             text="●",
-            text_color=ACCENT,
+            text_color="#22C55E",
             font=ctk.CTkFont(size=13),
-        )
-
-        indicator.grid(
+        ).grid(
             row=0,
             column=0,
-            padx=(0, 7),
+            padx=(12, 6),
+            pady=(10, 0),
         )
 
-        label = ctk.CTkLabel(
-            status_frame,
+        ctk.CTkLabel(
+            status,
             text="Monitoring ready",
-            text_color=TEXT_MUTED,
+            text_color=TEXT_PRIMARY,
             font=ctk.CTkFont(
                 family=FONT_FAMILY,
                 size=12,
+                weight="bold",
             ),
-        )
-
-        label.grid(
+        ).grid(
             row=0,
             column=1,
+            padx=(0, 10),
+            pady=(10, 0),
+            sticky="w",
+        )
+
+        ctk.CTkLabel(
+            status,
+            text="No active scan",
+            text_color=TEXT_SECONDARY,
+            font=ctk.CTkFont(
+                family=FONT_FAMILY,
+                size=11,
+            ),
+        ).grid(
+            row=1,
+            column=1,
+            padx=(0, 10),
+            pady=(2, 10),
             sticky="w",
         )
