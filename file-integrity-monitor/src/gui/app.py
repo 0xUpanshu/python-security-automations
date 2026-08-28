@@ -4,7 +4,7 @@ from tkinterdnd2 import TkinterDnD
 from .theme import APP_BG, PANEL_BG, BORDER
 from .navigation import NavigationManager
 from .components.sidebar import Sidebar
-from .pages.dashboard import DashboardPage
+from .pages.dashboard.page import DashboardPage
 from .pages.monitoring import MonitoringPage
 from .pages.incidents.page import IncidentsPage
 from .pages.reports.page import ReportsPage
