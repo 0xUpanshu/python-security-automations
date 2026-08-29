@@ -1,9 +1,0 @@
-=== File Integrity Monitoring Report ===
-Generated at: 2026-08-26_10-18-26
-
-[+] New Files:
-
-[!] Modified Files:
-C:\Users\upans\github-projects\python-security-automations\file-integrity-monitor\sample_files\test_powershell.txt
-
-[-] Deleted Files:

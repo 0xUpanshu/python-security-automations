@@ -16,16 +16,33 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 class MonitoringService:
     def __init__(self):
         self.config_path = (
-            BASE_DIR / "data" / "monitoring_config.json"
+            BASE_DIR
+            / "data"
+            / "monitoring_config.json"
         )
+
         self.baseline_path = (
-            BASE_DIR / "data" / "baseline.json"
+            BASE_DIR
+            / "data"
+            / "baseline.json"
         )
+
         self.incident_path = (
-            BASE_DIR / "data" / "incidents.json"
+            BASE_DIR
+            / "data"
+            / "incidents.json"
         )
+
+        self.scan_state_path = (
+            BASE_DIR
+            / "data"
+            / "scan_state.json"
+        )
+
         self.import_dir = (
-            BASE_DIR / "data" / "github_imports"
+            BASE_DIR
+            / "data"
+            / "github_imports"
         )
 
         self.config_path.parent.mkdir(
@@ -42,6 +59,10 @@ class MonitoringService:
             self._save_config({
                 "monitored_folders": []
             })
+
+    # --------------------------------------------------
+    # CONFIGURATION
+    # --------------------------------------------------
 
     def _read_config(self):
         try:
@@ -120,6 +141,10 @@ class MonitoringService:
 
         return True
 
+    # --------------------------------------------------
+    # GITHUB IMPORT
+    # --------------------------------------------------
+
     def import_github_file(self, url):
         parsed = urlparse(url)
 
@@ -152,6 +177,7 @@ class MonitoringService:
             owner = parts[0]
             repo = parts[1]
             branch = parts[3]
+
             file_path = "/".join(
                 parts[4:]
             )
@@ -192,7 +218,8 @@ class MonitoringService:
             )
 
         destination = (
-            self.import_dir / filename
+            self.import_dir
+            / filename
         )
 
         request = Request(
@@ -229,6 +256,10 @@ class MonitoringService:
 
         return str(destination)
 
+    # --------------------------------------------------
+    # SCANNING
+    # --------------------------------------------------
+
     def _scan_folders(self):
         folders = self.get_folders()
 
@@ -246,6 +277,10 @@ class MonitoringService:
 
         return hashes
 
+    # --------------------------------------------------
+    # BASELINE
+    # --------------------------------------------------
+
     def create_baseline(self):
         current_hashes = (
             self._scan_folders()
@@ -255,6 +290,11 @@ class MonitoringService:
             current_hashes,
             str(self.baseline_path),
         )
+
+        # A new baseline represents a new
+        # trusted state, so old scan state
+        # must not suppress future changes.
+        self._save_scan_state({})
 
         return {
             "folder_count": len(
@@ -267,6 +307,10 @@ class MonitoringService:
 
     def baseline_exists(self):
         return self.baseline_path.exists()
+
+    # --------------------------------------------------
+    # INTEGRITY STATUS
+    # --------------------------------------------------
 
     def get_integrity_status(self):
         folders = self.get_folders()
@@ -283,6 +327,7 @@ class MonitoringService:
 
         try:
             current = self._scan_folders()
+
         except ValueError:
             return []
 
@@ -293,7 +338,9 @@ class MonitoringService:
             | set(current)
         )
 
-        for file_path in sorted(all_files):
+        for file_path in sorted(
+            all_files
+        ):
             in_baseline = (
                 file_path in baseline
             )
@@ -302,7 +349,10 @@ class MonitoringService:
                 file_path in current
             )
 
-            if in_baseline and in_current:
+            if (
+                in_baseline
+                and in_current
+            ):
                 baseline_hash = (
                     baseline[file_path]
                 )
@@ -322,8 +372,10 @@ class MonitoringService:
                 results.append({
                     "file_path": file_path,
                     "status": status,
-                    "baseline_hash": baseline_hash,
-                    "current_hash": current_hash,
+                    "baseline_hash":
+                        baseline_hash,
+                    "current_hash":
+                        current_hash,
                 })
 
             elif in_current:
@@ -331,18 +383,99 @@ class MonitoringService:
                     "file_path": file_path,
                     "status": "added",
                     "baseline_hash": None,
-                    "current_hash": current[file_path],
+                    "current_hash":
+                        current[file_path],
                 })
 
             else:
                 results.append({
                     "file_path": file_path,
                     "status": "deleted",
-                    "baseline_hash": baseline[file_path],
+                    "baseline_hash":
+                        baseline[file_path],
                     "current_hash": None,
                 })
 
         return results
+
+    # --------------------------------------------------
+    # SCAN STATE
+    # --------------------------------------------------
+
+    def _load_scan_state(self):
+        if not self.scan_state_path.exists():
+            return {}
+
+        try:
+            with open(
+                self.scan_state_path,
+                "r",
+                encoding="utf-8",
+            ) as file:
+                data = json.load(file)
+
+            if not isinstance(
+                data,
+                dict,
+            ):
+                return {}
+
+            return data
+
+        except (
+            OSError,
+            json.JSONDecodeError,
+        ):
+            return {}
+
+    def _save_scan_state(self, state):
+        with open(
+            self.scan_state_path,
+            "w",
+            encoding="utf-8",
+        ) as file:
+            json.dump(
+                state,
+                file,
+                indent=4,
+            )
+
+    def _build_state(
+        self,
+        baseline,
+        current,
+    ):
+        state = {}
+
+        for path, file_hash in (
+            current.items()
+        ):
+            if path not in baseline:
+                state[path] = (
+                    f"added:{file_hash}"
+                )
+
+            elif baseline[path] != file_hash:
+                state[path] = (
+                    f"modified:{file_hash}"
+                )
+
+            else:
+                state[path] = (
+                    f"unchanged:{file_hash}"
+                )
+
+        for path in baseline:
+            if path not in current:
+                state[path] = (
+                    f"deleted:{baseline[path]}"
+                )
+
+        return state
+
+    # --------------------------------------------------
+    # SECURITY SCAN
+    # --------------------------------------------------
 
     def scan(self):
         if not self.baseline_exists():
@@ -367,7 +500,8 @@ class MonitoringService:
             for path in current
             if (
                 path in baseline
-                and baseline[path] != current[path]
+                and baseline[path]
+                != current[path]
             )
         ]
 
@@ -376,6 +510,17 @@ class MonitoringService:
             for path in baseline
             if path not in current
         ]
+
+        previous_state = (
+            self._load_scan_state()
+        )
+
+        current_state = (
+            self._build_state(
+                baseline,
+                current,
+            )
+        )
 
         analyzer = SecurityAnalyzer()
 
@@ -388,23 +533,49 @@ class MonitoringService:
         security_results = []
         incident_ids = []
 
-        for path in added + modified:
+        # ----------------------------------------------
+        # ADDED / MODIFIED
+        # ----------------------------------------------
+
+        for path in (
+            added + modified
+        ):
             try:
                 result = analyzer.analyze(
                     path
                 )
 
-                result["change_type"] = (
+                change_type = (
                     "added"
                     if path in added
                     else "modified"
+                )
+
+                result["change_type"] = (
+                    change_type
+                )
+
+                result["baseline_hash"] = (
+                    baseline.get(path)
+                )
+
+                result["current_hash"] = (
+                    current.get(path)
                 )
 
                 security_results.append(
                     result
                 )
 
-                if result["suspicious"]:
+                state_changed = (
+                    previous_state.get(path)
+                    != current_state.get(path)
+                )
+
+                if (
+                    result["suspicious"]
+                    and state_changed
+                ):
                     incident = (
                         incidents.create_incident(
                             result
@@ -412,10 +583,14 @@ class MonitoringService:
                     )
 
                     incident_ids.append(
-                        incident["incident_id"]
+                        incident[
+                            "incident_id"
+                        ]
                     )
 
-                    alerts.alert(result)
+                    alerts.alert(
+                        result
+                    )
 
             except Exception as error:
                 security_results.append({
@@ -430,6 +605,10 @@ class MonitoringService:
                     "error": str(error),
                 })
 
+        # ----------------------------------------------
+        # DELETED
+        # ----------------------------------------------
+
         for path in deleted:
             result = {
                 "file_path": path,
@@ -438,32 +617,60 @@ class MonitoringService:
                 "indicators": [
                     "file_deleted"
                 ],
+                "baseline_hash":
+                    baseline[path],
+                "current_hash": None,
                 "risk": {
                     "score": 50,
                     "severity": "HIGH",
                 },
             }
 
-            incident = (
-                incidents.create_incident(
+            state_changed = (
+                previous_state.get(path)
+                != current_state.get(path)
+            )
+
+            if state_changed:
+                incident = (
+                    incidents.create_incident(
+                        result
+                    )
+                )
+
+                incident_ids.append(
+                    incident[
+                        "incident_id"
+                    ]
+                )
+
+                alerts.alert(
                     result
                 )
-            )
-
-            incident_ids.append(
-                incident["incident_id"]
-            )
-
-            alerts.alert(result)
 
             security_results.append(
                 result
             )
 
+        # ----------------------------------------------
+        # SAVE CURRENT STATE
+        # ----------------------------------------------
+
+        self._save_scan_state(
+            current_state
+        )
+
         return {
             "added": added,
             "modified": modified,
             "deleted": deleted,
-            "security_results": security_results,
-            "incident_ids": incident_ids,
+            "security_results":
+                security_results,
+            "incident_ids":
+                incident_ids,
+            "changed": bool(
+                added
+                or modified
+                or deleted
+            ),
         }

@@ -1,26 +1,25 @@
 [
     {
         "incident_id": "INC-2026-0001",
-        "created_at": "2026-08-26T17:41:48",
+        "created_at": "2026-08-29T23:26:43",
         "analysis": {
-            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\test_powershell.txt",
-            "sha256": "b6a4720dceb662a34697b2545d860b6fe2afdb3e9150d8e8a5995ee961609067",
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\invoice.pdf.exe",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
             "suspicious": true,
             "indicators": [
-                "yara_match"
+                "double_extension",
+                "executable_or_script"
             ],
-            "entropy": 4.0472,
+            "entropy": 0.0,
             "high_entropy": false,
-            "yara_matches": [
-                "Suspicious_Powershell"
-            ],
+            "yara_matches": [],
             "yara_available": true,
             "virustotal": {
                 "available": true,
-                "known": false,
+                "known": true,
                 "malicious": 0,
                 "suspicious": 0,
-                "total_engines": 0
+                "total_engines": 75
             },
             "public_ips": [],
             "ip_reputation": [],
@@ -28,7 +27,42 @@
                 "score": 30,
                 "severity": "MEDIUM"
             },
-            "change_type": "modified"
+            "change_type": "added",
+            "baseline_hash": null,
+            "current_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+    },
+    {
+        "incident_id": "INC-2026-0002",
+        "created_at": "2026-08-29T23:26:47",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\invoice.pdf.exe",
+            "sha256": "470832e49ec041d3b4ca465ba336cde4ebe208059e314075437c8cec42ce6712",
+            "suspicious": true,
+            "indicators": [
+                "double_extension",
+                "executable_or_script"
+            ],
+            "entropy": 0.9183,
+            "high_entropy": false,
+            "yara_matches": [],
+            "yara_available": true,
+            "virustotal": {
+                "available": true,
+                "known": true,
+                "malicious": 0,
+                "suspicious": 0,
+                "total_engines": 76
+            },
+            "public_ips": [],
+            "ip_reputation": [],
+            "risk": {
+                "score": 30,
+                "severity": "MEDIUM"
+            },
+            "change_type": "added",
+            "baseline_hash": null,
+            "current_hash": "470832e49ec041d3b4ca465ba336cde4ebe208059e314075437c8cec42ce6712"
         }
     }
 ]

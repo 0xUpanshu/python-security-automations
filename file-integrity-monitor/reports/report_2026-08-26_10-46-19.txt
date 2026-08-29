@@ -1,8 +1,0 @@
-=== File Integrity Monitoring Report ===
-Generated at: 2026-08-26_10-46-19
-
-[+] New Files:
-
-[!] Modified Files:
-
-[-] Deleted Files:
