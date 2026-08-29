@@ -5,10 +5,10 @@ from .theme import APP_BG, PANEL_BG, BORDER
 from .navigation import NavigationManager
 from .components.sidebar import Sidebar
 from .pages.dashboard.page import DashboardPage
-from .pages.monitoring import MonitoringPage
+from .pages.monitoring.page import MonitoringPage
 from .pages.incidents.page import IncidentsPage
 from .pages.reports.page import ReportsPage
-from .pages.settings import SettingsPage
+from .pages.settings.page import SettingsPage
 
 
 class FIMApplication(ctk.CTk):

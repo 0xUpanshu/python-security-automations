@@ -4,17 +4,21 @@ from pathlib import Path
 import customtkinter as ctk
 
 from src.incidents.manager import IncidentManager
+from src.services.monitoring_service import MonitoringService
+
 from src.gui.theme import (
     TEXT_PRIMARY,
     TEXT_SECONDARY,
     FONT_FAMILY,
 )
+
 from src.gui.pages.incidents.incident_detail import (
     IncidentDetail,
 )
 
 from .summary import DashboardSummary
 from .activity import DashboardActivity
+from .intigrity import IntegritySection
 
 
 BASE_DIR = Path(__file__).resolve().parents[4]
@@ -26,6 +30,8 @@ class DashboardPage(ctk.CTkFrame):
             parent,
             fg_color="transparent",
         )
+
+        self.service = MonitoringService()
 
         self.incident_manager = IncidentManager(
             str(
@@ -131,6 +137,18 @@ class DashboardPage(ctk.CTkFrame):
             row=1,
             column=0,
             sticky="ew",
+            pady=(0, 18),
+        )
+
+        self.integrity = IntegritySection(
+            content,
+            self.service,
+        )
+
+        self.integrity.grid(
+            row=2,
+            column=0,
+            sticky="ew",
         )
 
     def refresh(self):
@@ -164,6 +182,8 @@ class DashboardPage(ctk.CTkFrame):
         self.activity.update_folders(
             folders
         )
+
+        self.integrity.refresh()
 
     def _get_folders(self):
         path = (
@@ -226,8 +246,7 @@ class DashboardPage(ctk.CTkFrame):
 
     def _get_reports(self):
         reports_dir = (
-            BASE_DIR
-            / "reports"
+            BASE_DIR / "reports"
         )
 
         if not reports_dir.exists():

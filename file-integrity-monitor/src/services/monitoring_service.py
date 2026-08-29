@@ -15,10 +15,18 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 class MonitoringService:
     def __init__(self):
-        self.config_path = BASE_DIR / "data" / "monitoring_config.json"
-        self.baseline_path = BASE_DIR / "data" / "baseline.json"
-        self.incident_path = BASE_DIR / "data" / "incidents.json"
-        self.import_dir = BASE_DIR / "data" / "github_imports"
+        self.config_path = (
+            BASE_DIR / "data" / "monitoring_config.json"
+        )
+        self.baseline_path = (
+            BASE_DIR / "data" / "baseline.json"
+        )
+        self.incident_path = (
+            BASE_DIR / "data" / "incidents.json"
+        )
+        self.import_dir = (
+            BASE_DIR / "data" / "github_imports"
+        )
 
         self.config_path.parent.mkdir(
             parents=True,
@@ -259,6 +267,82 @@ class MonitoringService:
 
     def baseline_exists(self):
         return self.baseline_path.exists()
+
+    def get_integrity_status(self):
+        folders = self.get_folders()
+
+        if not folders:
+            return []
+
+        if not self.baseline_exists():
+            return []
+
+        baseline = load_baseline(
+            str(self.baseline_path)
+        )
+
+        try:
+            current = self._scan_folders()
+        except ValueError:
+            return []
+
+        results = []
+
+        all_files = (
+            set(baseline)
+            | set(current)
+        )
+
+        for file_path in sorted(all_files):
+            in_baseline = (
+                file_path in baseline
+            )
+
+            in_current = (
+                file_path in current
+            )
+
+            if in_baseline and in_current:
+                baseline_hash = (
+                    baseline[file_path]
+                )
+
+                current_hash = (
+                    current[file_path]
+                )
+
+                if (
+                    baseline_hash
+                    == current_hash
+                ):
+                    status = "unchanged"
+                else:
+                    status = "modified"
+
+                results.append({
+                    "file_path": file_path,
+                    "status": status,
+                    "baseline_hash": baseline_hash,
+                    "current_hash": current_hash,
+                })
+
+            elif in_current:
+                results.append({
+                    "file_path": file_path,
+                    "status": "added",
+                    "baseline_hash": None,
+                    "current_hash": current[file_path],
+                })
+
+            else:
+                results.append({
+                    "file_path": file_path,
+                    "status": "deleted",
+                    "baseline_hash": baseline[file_path],
+                    "current_hash": None,
+                })
+
+        return results
 
     def scan(self):
         if not self.baseline_exists():
