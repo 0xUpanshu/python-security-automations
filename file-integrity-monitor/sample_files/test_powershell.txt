@@ -1,3 +1,0 @@
-powershell
--enc
-Invoke-Expression
