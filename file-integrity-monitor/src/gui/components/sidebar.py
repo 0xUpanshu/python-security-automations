@@ -23,6 +23,7 @@ class Sidebar(ctk.CTkFrame):
 
         self.on_navigate = on_navigate
         self.buttons = {}
+        self.alert_badges = {}
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(7, weight=1)
@@ -96,12 +97,41 @@ class Sidebar(ctk.CTkFrame):
             button.grid(
                 row=row,
                 column=0,
-                padx=14,
+                padx=(14, 6),
                 pady=4,
                 sticky="ew",
             )
 
+            badge = ctk.CTkLabel(
+                self,
+                text="●",
+                text_color="#EF4444",
+                font=ctk.CTkFont(size=16, weight="bold"),
+                width=10,
+                anchor="center",
+            )
+
+            badge.grid(
+                row=row,
+                column=1,
+                padx=(0, 14),
+                pady=4,
+                sticky="e",
+            )
+            badge.grid_remove()
+
             self.buttons[page_name] = button
+            self.alert_badges[page_name] = badge
+
+    def set_alert(self, page_name, active):
+        badge = self.alert_badges.get(page_name)
+        if not badge:
+            return
+
+        if active:
+            badge.grid()
+        else:
+            badge.grid_remove()
 
     def set_active(self, page_name):
         for name, button in self.buttons.items():

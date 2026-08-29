@@ -147,6 +147,12 @@ class FIMApplication(ctk.CTk):
             page_name
         )
 
+        if page_name == "incidents":
+            self.sidebar.set_alert(
+                "incidents",
+                False,
+            )
+
         page = self.pages.get(page_name)
 
         if page and hasattr(
@@ -230,12 +236,32 @@ class FIMApplication(ctk.CTk):
                 ].service
             )
 
+            result = None
             if service.baseline_exists():
-                service.scan()
+                result = service.scan()
+
+            if result and (
+                result.get("added")
+                or result.get("modified")
+                or result.get("deleted")
+            ):
+                self.sidebar.set_alert(
+                    "incidents",
+                    True,
+                )
+            else:
+                self.sidebar.set_alert(
+                    "incidents",
+                    False,
+                )
 
             self._refresh_pages()
 
         except Exception:
+            self.sidebar.set_alert(
+                "incidents",
+                False,
+            )
             self._refresh_pages()
 
     def _refresh_pages(self):
