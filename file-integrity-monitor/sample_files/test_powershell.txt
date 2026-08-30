@@ -1,0 +1,2 @@
+Write-Host "File Integrity Monitor PowerShell Test"
+Write-Host "This file is used for security analysis."
