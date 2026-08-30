@@ -1,5 +1,5 @@
 import os
-from integrity import calculate_hash
+from .integrity import calculate_hash
 
 def scan_directory(directory_path):
     file_hashes = {}
