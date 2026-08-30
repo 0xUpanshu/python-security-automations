@@ -94,12 +94,6 @@ class IntegrationSettings(ctk.CTkFrame):
             "File reputation lookup",
         )
 
-        self._integration(
-            card,
-            4,
-            "GitHub",
-            "Sample file import",
-        )
 
     def _integration(
         self,

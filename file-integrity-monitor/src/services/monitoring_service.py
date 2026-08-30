@@ -537,19 +537,22 @@ class MonitoringService:
         # ADDED / MODIFIED
         # ----------------------------------------------
 
-        for path in (
-            added + modified
-        ):
+        all_current_paths = sorted(
+            current.keys()
+        )
+
+        for path in all_current_paths:
             try:
                 result = analyzer.analyze(
                     path
                 )
 
-                change_type = (
-                    "added"
-                    if path in added
-                    else "modified"
-                )
+                if path in added:
+                    change_type = "added"
+                elif path in modified:
+                    change_type = "modified"
+                else:
+                    change_type = "unchanged"
 
                 result["change_type"] = (
                     change_type
@@ -567,15 +570,7 @@ class MonitoringService:
                     result
                 )
 
-                state_changed = (
-                    previous_state.get(path)
-                    != current_state.get(path)
-                )
-
-                if (
-                    result["suspicious"]
-                    and state_changed
-                ):
+                if result["suspicious"]:
                     incident = (
                         incidents.create_incident(
                             result

@@ -1,3 +1,0 @@
-File Integrity Monitor - Deletion Test
-
-This file will be deleted during testing.

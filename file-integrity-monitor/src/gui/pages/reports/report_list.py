@@ -41,11 +41,16 @@ class ReportList(ctk.CTkFrame):
         self.container.grid(
             row=1,
             column=0,
-            sticky="ew",
+            sticky="nsew",
         )
 
         self.container.grid_columnconfigure(
             0,
+            weight=1,
+        )
+
+        self.grid_rowconfigure(
+            1,
             weight=1,
         )
 

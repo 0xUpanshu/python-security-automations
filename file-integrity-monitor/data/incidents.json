@@ -1,1 +1,115 @@
-[]
+[
+    {
+        "incident_id": "INC-2026-0001",
+        "created_at": "2026-08-30T11:05:57",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\file3.txt",
+            "change_type": "deleted",
+            "suspicious": true,
+            "indicators": [
+                "file_deleted"
+            ],
+            "baseline_hash": "3d190fe6a33c2eedbeceab6abfcef22f33c2f0a655467cb1a24cbae8b17c8919",
+            "current_hash": null,
+            "risk": {
+                "score": 50,
+                "severity": "HIGH"
+            }
+        }
+    },
+    {
+        "incident_id": "INC-2026-0002",
+        "created_at": "2026-08-30T11:35:22",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\invoice.pdf.exe",
+            "sha256": "73113f1b0337d2ff0273550229ef8f8db9122fd999e468ac63bc5b374cff9273",
+            "suspicious": true,
+            "indicators": [
+                "double_extension",
+                "executable_or_script"
+            ],
+            "entropy": 4.3466,
+            "high_entropy": false,
+            "yara_matches": [],
+            "yara_available": true,
+            "virustotal": {
+                "available": true,
+                "known": false,
+                "malicious": 0,
+                "suspicious": 0,
+                "total_engines": 0
+            },
+            "public_ips": [],
+            "ip_reputation": [],
+            "risk": {
+                "score": 30,
+                "severity": "MEDIUM"
+            },
+            "change_type": "unchanged",
+            "baseline_hash": "73113f1b0337d2ff0273550229ef8f8db9122fd999e468ac63bc5b374cff9273",
+            "current_hash": "73113f1b0337d2ff0273550229ef8f8db9122fd999e468ac63bc5b374cff9273"
+        }
+    },
+    {
+        "incident_id": "INC-2026-0003",
+        "created_at": "2026-08-30T11:35:25",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\network_test.ps1",
+            "sha256": "5fe8ed7185b861c8de5434b729d4e4bc8a210bedd71875b4ddf9eb8e945d0c35",
+            "suspicious": true,
+            "indicators": [
+                "executable_or_script"
+            ],
+            "entropy": 4.5256,
+            "high_entropy": false,
+            "yara_matches": [],
+            "yara_available": true,
+            "virustotal": {
+                "available": true,
+                "known": false,
+                "malicious": 0,
+                "suspicious": 0,
+                "total_engines": 0
+            },
+            "public_ips": [
+                "8.8.8.8"
+            ],
+            "ip_reputation": [
+                {
+                    "available": true,
+                    "known": true,
+                    "ip": "8.8.8.8",
+                    "malicious": 0,
+                    "suspicious": 0,
+                    "harmless": 53,
+                    "total_engines": 91
+                }
+            ],
+            "risk": {
+                "score": 10,
+                "severity": "LOW"
+            },
+            "change_type": "unchanged",
+            "baseline_hash": "5fe8ed7185b861c8de5434b729d4e4bc8a210bedd71875b4ddf9eb8e945d0c35",
+            "current_hash": "5fe8ed7185b861c8de5434b729d4e4bc8a210bedd71875b4ddf9eb8e945d0c35"
+        }
+    },
+    {
+        "incident_id": "INC-2026-0004",
+        "created_at": "2026-08-30T18:20:47",
+        "analysis": {
+            "file_path": "C:\\Users\\upans\\github-projects\\python-security-automations\\file-integrity-monitor\\sample_files\\test_powershell.txt",
+            "change_type": "deleted",
+            "suspicious": true,
+            "indicators": [
+                "file_deleted"
+            ],
+            "baseline_hash": "97af328e02447b266e477b8f07f850656e0a7a08663518461a4a1faf3c53f90f",
+            "current_hash": null,
+            "risk": {
+                "score": 50,
+                "severity": "HIGH"
+            }
+        }
+    }
+]
